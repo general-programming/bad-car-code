@@ -1,0 +1,6 @@
+[submodule "panda"]
+	path = panda
+	url = ./panda
+[submodule "panda-canutils"]
+	path = panda-canutils
+	url = ./panda-canutils
