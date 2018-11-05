@@ -1,5 +1,5 @@
 [submodule "panda"]
-	path = panda
+	path = commapanda
 	url = ./panda
 [submodule "panda-canutils"]
 	path = panda-canutils
