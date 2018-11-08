@@ -11,18 +11,18 @@ from redis import StrictRedis
 from cangaming.packets import PACKET_HANDLERS
 from cangaming.enums import KeyboardBinds, CurrentBinds
 
+# Enable failsafe and set pyautogui pause to zero. #YOLO
 pyautogui.PAUSE = 0
 pyautogui.FAILSAFE = True
-
-redis = StrictRedis()
-panda = Panda()
-
 
 class CarController(object):
     def __init__(self):
         self.running = True
         self.start = time.time()
         self.threads = []
+
+        self.redis = StrictRedis()
+        self.panda = Panda()
 
         self.keyboard_state = {
             CurrentBinds.KEY_FORWARD: False,
@@ -46,7 +46,7 @@ class CarController(object):
     @neutral_wheel.setter
     def neutral_wheel(self, value):
         self._neutral_wheel = value
-        redis.hset("can:gamebus", "wheel:neutral", value)
+        self.redis.hset("can:gamebus", "wheel:neutral", value)
 
     def mouse_thread(self):
         while self.running:
@@ -73,7 +73,7 @@ class CarController(object):
 
     def loop(self):
         while self.running:
-            can_recv = panda.can_recv()
+            can_recv = self.panda.can_recv()
             for can_message in can_recv:
                 can_id = can_message[0]
                 can_data = can_message[2]
@@ -132,4 +132,4 @@ class CarController(object):
             "keys": self.keyboard_state,
         }
 
-        redis.publish("can:gamebus", json.dumps(log))
+        self.redis.publish("can:gamebus", json.dumps(log))
