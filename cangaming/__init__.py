@@ -112,16 +112,6 @@ class CarController(object):
             # Log state once done.
             # self.log()
 
-    def main(self):
-        # Thread startup
-        self.threads.append(threading.Thread(target=self.mouse_thread).start())
-
-        # Main loop
-        try:
-            self.loop()
-        except KeyboardInterrupt:
-            self.running = False
-
     def log(self):
         log = {
             "wheel": {
@@ -133,3 +123,13 @@ class CarController(object):
         }
 
         self.redis.publish("can:gamebus", json.dumps(log))
+
+    def main(self):
+        # Thread startup
+        self.threads.append(threading.Thread(target=self.mouse_thread).start())
+
+        # Main loop
+        try:
+            self.loop()
+        except KeyboardInterrupt:
+            self.running = False
