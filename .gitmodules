@@ -1,6 +1,9 @@
-[submodule "panda"]
+[submodule "commapanda"]
 	path = commapanda
-	url = https://github.com/commaai/panda.git
+	url = git@github.com:general-programming/panda.git
 [submodule "panda-canutils"]
 	path = panda-canutils
 	url = https://github.com/quillford/panda-canutils.git
+[submodule "python-can-monitor"]
+	path = python-can-monitor
+	url = git@github.com:general-programming/python-can-monitor.git
