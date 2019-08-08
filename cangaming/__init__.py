@@ -95,12 +95,20 @@ class CarController(object):
                             continue
 
                         # Log press and do update stat.
-                        print(key, press)
-                        self.log()
-
+                        if not CurrentBinds.SILENCE_PRINTS:
+                            print(key, press)
+                            self.log()
+                    
                         # Skip mouse moving keys
                         if key == KeyboardBinds.MOUSE_LEFT or key == KeyboardBinds.MOUSE_RIGHT:
                             continue
+                        elif callable(key):
+                            if press:
+                                result = key()
+                                if result:
+                                    pyautogui.keyDown(result)
+                            else:
+                                pyautogui.keyUp(CurrentBinds.keyboard.currentKey)
                         else:
                             # #bongokey
                             if press:
